@@ -5,10 +5,12 @@ import Card from "./components/Card";
 
 function App() {
   return (
-    <div className="mx-auto px-6 py-8">
-      <Header />
-      <Search />
-      <Card />
+    <div className="flex items-center justify-center md:h-screen px-6 py-8">
+      <div className="flex flex-col max-w-3xl">
+        <Header />
+        <Search />
+        <Card />
+      </div>
     </div>
   );
 }
