@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-
-const Search = ({ fetchGithubUser, error }) => {
+import "./Theme.css";
+const Search = ({ fetchGithubUser, error, setError, theme }) => {
   const [searchedUser, setSearchedUser] = useState();
 
   const onSubmitHandler = (e) => {
@@ -11,10 +11,12 @@ const Search = ({ fetchGithubUser, error }) => {
 
   console.log(error);
 
+  console.log(theme);
+
   return (
     <form
       onSubmit={onSubmitHandler}
-      className="gap-2 bg-card-blue flex p-4  items-center mt-10 rounded-lg"
+      className={`shadow-app gap-2 bg-white dark:bg-app-grey-3 flex p-4  items-center mt-10 rounded-lg ${theme}`}
     >
       <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -24,17 +26,20 @@ const Search = ({ fetchGithubUser, error }) => {
       </svg>
 
       <input
-        className="text-white flex-auto bg-transparent text-xs w-1"
+        className="placeholder-app-grey-2 text-app-grey-5 dark:text-white flex-auto bg-transparent text-xs md:text-lg w-1"
         type="text"
         value={searchedUser}
         placeholder="Search Github username..."
+        onClick={() => {
+          setError();
+        }}
         onChange={(e) => {
           setSearchedUser(e.target.value);
           console.log(searchedUser);
         }}
       />
-      {error && <p className="text-xs text-red-500 mr-4">No results</p>}
-      <button className="text-s text-white bg-accent-blue px-4 py-2 rounded-lg">
+      {error && <p className="text-xs text-app-red mr-4">No results</p>}
+      <button className="flex items-center text-s text-white bg-app-primary hover:bg-app-primary-hover px-4 py-2 rounded-lg">
         Search
       </button>
     </form>
