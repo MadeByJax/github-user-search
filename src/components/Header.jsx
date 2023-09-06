@@ -11,11 +11,14 @@ const Header = ({ theme, handleThemeSwitch }) => {
         devfinder
       </h1>
       <div className="flex gap-4 items-center">
-        <span className="font-bold dark:text-white text-app-grey-1">
+        <span
+          onClick={handleThemeSwitch}
+          className="font-bold cursor-pointer dark:text-white text-app-grey-1"
+        >
           {theme === "light" ? "Dark" : theme === "dark" ? "Light" : ""}
         </span>
         <svg
-          className="fill-current text-app-grey-1 dark:text-white"
+          className="fill-current cursor-pointer  text-app-grey-1 dark:text-white"
           width="20"
           height="20"
           xmlns="http://www.w3.org/2000/svg"

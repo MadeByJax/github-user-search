@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Search from "./components/Search";
@@ -6,13 +6,33 @@ import Card from "./components/Card";
 import { Octokit } from "octokit";
 
 function App() {
+  const API_KEY = import.meta.env.VITE_API_KEY;
+
   const octokit = new Octokit({
-    auth: "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",
+    auth: API_KEY,
   });
 
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+  const [theme, setTheme] = useState(null);
+  const [formattedDate, setFormattedDate] = useState(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
 
   const fetchGithubUser = async (searchedUser) => {
     try {
@@ -24,28 +44,42 @@ function App() {
         },
       });
       if (response.status === 200) {
-        console.log(response);
         setUser(response.data);
         setIsLoading(false);
         setError();
+
+        const githubTimestamp = response.data.created_at;
+        const parsedTime = new Date(githubTimestamp);
+        const day = parsedTime.getDate();
+        const month = parsedTime.toLocaleString("en-US", { month: "short" });
+        const year = parsedTime.getFullYear();
+        const formattedDate = `${day} ${month} ${year}`;
+
+        setFormattedDate(formattedDate);
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
-      console.log(user);
       setError(error);
     }
   };
 
   useEffect(() => {
-    fetchGithubUser("Madebyjax");
+    fetchGithubUser("octocat");
   }, []);
 
+  const handleThemeSwitch = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
-    <div className="flex items-center justify-center md:h-screen px-6 py-8">
+    <div className="flex md:items-center justify-center bg-app-light dark:bg-app-dark h-full md:h-screen px-6 py-8">
       <div className="w-[90%]  md:w-[730px]">
-        <Header />
-        <Search error={error} fetchGithubUser={fetchGithubUser} />
-        <Card isLoading={isLoading} user={user} />
+        <Header handleThemeSwitch={handleThemeSwitch} theme={theme} />
+        <Search
+          setError={setError}
+          error={error}
+          fetchGithubUser={fetchGithubUser}
+        />
+        <Card isLoading={isLoading} formattedDate={formattedDate} user={user} />
       </div>
     </div>
   );
