@@ -1,5 +1,4 @@
 import React from "react";
-import "./Theme.css";
 
 const Header = ({ theme, handleThemeSwitch }) => {
   return (

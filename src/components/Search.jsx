@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import "./Theme.css";
 const Search = ({ fetchGithubUser, error, setError, theme }) => {
   const [searchedUser, setSearchedUser] = useState();
 
