@@ -4,6 +4,9 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      screens: {
+        xs: "400px",
+      },
       colors: {
         "app-primary": "#0079FF",
         "app-primary-hover": "#60ABFF",
