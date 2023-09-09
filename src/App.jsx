@@ -71,7 +71,7 @@ function App() {
   };
 
   return (
-    <div className="flex md:items-center justify-center bg-app-light dark:bg-app-dark h-full md:h-screen px-6 py-8">
+    <div className="flex md:items-center justify-center bg-app-light dark:bg-app-dark h-screen px-6 py-8">
       <div className="w-[90%]  md:w-[730px]">
         <Header handleThemeSwitch={handleThemeSwitch} theme={theme} />
         <Search
