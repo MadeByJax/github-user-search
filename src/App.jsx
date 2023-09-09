@@ -13,7 +13,7 @@ function App() {
   });
 
   const [user, setUser] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
   const [theme, setTheme] = useState(null);
   const [formattedDate, setFormattedDate] = useState(null);
@@ -45,8 +45,7 @@ function App() {
       });
       if (response.status === 200) {
         setUser(response.data);
-        setIsLoading(false);
-        setError();
+        setError(null);
 
         const githubTimestamp = response.data.created_at;
         const parsedTime = new Date(githubTimestamp);
@@ -59,6 +58,8 @@ function App() {
       }
     } catch (error) {
       setError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
